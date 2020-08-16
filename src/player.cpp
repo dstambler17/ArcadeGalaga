@@ -8,13 +8,12 @@
 using std::vector;
 
 namespace player_constants {
-	const float WALK_SPEED = 0.2f;
-	const float JUMP_SPEED = 0.7f;
-
 	const float GRAVITY = 0.002f;
 	const float GRAVITY_CAP = 0.8f;
     const float STARTING_HEALTH = 3;
     const int NUM_LAZERS_PER_SCREEN = 0;
+    const int SCREEN_WIDTH = 750;
+    const int SCREEN_HIGHT = 550;
 }
 
 Player::Player() {}
@@ -59,6 +58,7 @@ void Player::moveUp() {
 
 void Player::moveDown() {
     this->_dy = 10;
+    std::cout << this->_y << std::endl;
 }
 
 void Player::fireLazer(Graphics &graphics){
@@ -68,8 +68,13 @@ void Player::fireLazer(Graphics &graphics){
 
 
 void Player::update() {
-    this->_x += this->_dx;
-	this->_y += this->_dy;
+    if (this->_dx + this->_x <= player_constants::SCREEN_WIDTH && this->_dx + this->_x >= 0){
+        this->_x += this->_dx;
+    }
+    if (this->_dy + this->_y <= player_constants::SCREEN_HIGHT && this->_dy + this->_y >= 0){
+        this->_y += this->_dy;
+    }
+	
     this->_dx = 0;
     this->_dy = 0;
 
@@ -95,6 +100,8 @@ void Player::update() {
             i += 1;
         }
     }
+    //Clear All Lazers
+
     //Remove Lazers that are no longer used
     for (int idx : deleteIdx){
        this->_lazers.erase(this->_lazers.begin() + idx);
@@ -110,7 +117,26 @@ void Player::handleEnemyCollisions(Enemy &enemy) {
         this->invincibilityOn = true;
         this->invincibilityFrame = 50;
     }
-	
+}
+
+void Player::handleLazerCollisions(Enemy &enemy) {
+    //Collect Collided with enemies
+    vector<int> deleteIdx;
+    if (this->numLazers > 0){
+        int i = 0;
+        for (Lazer &lazer : this->_lazers){
+            if (lazer.getBoundingBox().collidesWith(enemy.getBoundingBox())){
+                lazer.collideWithEnemy(&enemy);
+                deleteIdx.push_back(i);
+            }
+            i += 1;
+        }
+    }
+    //Remove Lazers that are no longer used
+    for (int idx : deleteIdx){
+       this->_lazers.erase(this->_lazers.begin() + idx);
+    }
+    deleteIdx.clear();
 }
 
 void Player::draw(Graphics &graphics) {

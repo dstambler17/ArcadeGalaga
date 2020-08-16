@@ -12,6 +12,10 @@ void Enemy::update() {
 	Sprite::update();
 }
 
+void Enemy::loseHealth(int damage){
+	this->health -= damage;
+}
+
 void Enemy::draw(Graphics &graphics) {
 	Sprite::draw(graphics, this->_x, this->_y);
 }
@@ -25,7 +29,9 @@ EyeBot::EyeBot(Graphics &graphics, int spawnX, int spawnY):
 		_startingX(spawnX),
 		_startingY(spawnY),
 		_shouldMoveSide(true)
-{}
+{
+	this->health = 1;
+}
 
 void EyeBot::update() {
 	if (this->_shouldMoveSide){

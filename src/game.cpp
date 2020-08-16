@@ -79,6 +79,8 @@ void Game::update(){
 		_player.handleEnemyCollisions(_eyebot);
 	}
 
+    _player.handleLazerCollisions(_eyebot);
+
     if (_player.getHealth() <= 0){
         isRunning = false;
     }
@@ -87,7 +89,11 @@ void Game::update(){
 void Game::render(){
     _graphics.clear();
     _player.draw(_graphics);
-    _eyebot.draw(_graphics);
+    //std::cout << "ENEMY HEALTH" << std::endl;
+    //std::cout << _eyebot.getHealth() << std::endl;
+    if (_eyebot.getHealth() > 0){
+        _eyebot.draw(_graphics);
+    }
     _graphics.flip();
 }
 

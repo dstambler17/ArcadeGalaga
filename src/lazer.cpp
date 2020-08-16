@@ -11,7 +11,7 @@ Sprite(graphics, "content/sprites/lazer.png",20, 25, start_x, start_y),
 _dx(start_x),
 _dy(start_y)
 {   
-    
+    this->damage = 1;
     this->travelingUp = travelingUp;
 }
 
@@ -24,12 +24,18 @@ void Lazer::travel() {
     }
 }
 
+
 float Lazer::getY(){
     return this->_y;
 }
 
+void Lazer::collideWithEnemy(Enemy* enemy){
+    enemy->loseHealth(this->damage);
+}
+
 void Lazer::update() {
     this->_y += this->_dy;
+    Sprite::update();
 }
 
 void Lazer::draw(Graphics &graphics) {

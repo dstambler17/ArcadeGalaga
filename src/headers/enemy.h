@@ -15,6 +15,13 @@ public:
 			int width, int height);
 	virtual void update();
 	virtual void draw(Graphics &graphics);
+
+	void loseHealth(int damage);
+
+	int getHealth() {return this->health;}
+
+protected:
+	int health;
 };
 
 

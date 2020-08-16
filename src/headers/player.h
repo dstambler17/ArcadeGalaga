@@ -10,6 +10,7 @@ using std::vector;
 
 class Graphics;
 class Enemy;
+class Lazer;
 
 class Player : Sprite {
 public:
@@ -41,6 +42,7 @@ public:
     void fireLazer(Graphics &graphics);
 
 	void handleEnemyCollisions(Enemy &enemy);
+	void handleLazerCollisions(Enemy &enemy);
 
 	const Rectangle getBoundingBox() {
 		return Sprite::getBoundingBox();
