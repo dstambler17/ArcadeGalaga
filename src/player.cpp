@@ -110,7 +110,7 @@ void Player::update() {
     Sprite::update();
 }
 
-void Player::handleEnemyCollisions(Enemy &enemy) {
+void Player::handleEnemyCollisions(Enemy* enemy) {
     std::cout << "COLLISION TEST" << std::endl;
     if (!this->invincibilityOn){
         this->health -= 1;
@@ -119,14 +119,14 @@ void Player::handleEnemyCollisions(Enemy &enemy) {
     }
 }
 
-void Player::handleLazerCollisions(Enemy &enemy) {
+void Player::handleLazerCollisions(Enemy* enemy) {
     //Collect Collided with enemies
     vector<int> deleteIdx;
     if (this->numLazers > 0){
         int i = 0;
         for (Lazer &lazer : this->_lazers){
-            if (lazer.getBoundingBox().collidesWith(enemy.getBoundingBox())){
-                lazer.collideWithEnemy(&enemy);
+            if (lazer.getBoundingBox().collidesWith(enemy->getBoundingBox())){
+                lazer.collideWithEnemy(enemy);
                 deleteIdx.push_back(i);
             }
             i += 1;

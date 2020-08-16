@@ -3,7 +3,7 @@
 #include "headers/game.h"
 #include "headers/graphics.h"
 #include "headers/player.h"
-#include "headers/enemy.h"
+#include "headers/level.h"
 #include <string>
 #include <iostream>
 
@@ -11,7 +11,7 @@ Game::Game(){
     //SDL_Init(SDL_INIT_EVERYTHING);
     isRunning = true;
     this->_player = Player(_graphics);
-    this->_eyebot = EyeBot(_graphics, 100, 200);
+    this->_level = Level(_graphics, 1);
 }
 
 Game::~Game()
@@ -73,14 +73,7 @@ void Game::handleEvents(){
 
 void Game::update(){
     _player.update();
-    _eyebot.update();
-
-    if (_eyebot.getBoundingBox().collidesWith(_player.getBoundingBox())) {
-		_player.handleEnemyCollisions(_eyebot);
-	}
-
-    _player.handleLazerCollisions(_eyebot);
-
+    _level.update(_player);
     if (_player.getHealth() <= 0){
         isRunning = false;
     }
@@ -89,11 +82,7 @@ void Game::update(){
 void Game::render(){
     _graphics.clear();
     _player.draw(_graphics);
-    //std::cout << "ENEMY HEALTH" << std::endl;
-    //std::cout << _eyebot.getHealth() << std::endl;
-    if (_eyebot.getHealth() > 0){
-        _eyebot.draw(_graphics);
-    }
+    _level.draw(_graphics);
     _graphics.flip();
 }
 

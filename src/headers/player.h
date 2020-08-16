@@ -41,8 +41,8 @@ public:
 
     void fireLazer(Graphics &graphics);
 
-	void handleEnemyCollisions(Enemy &enemy);
-	void handleLazerCollisions(Enemy &enemy);
+	void handleEnemyCollisions(Enemy* enemy);
+	void handleLazerCollisions(Enemy* enemy);
 
 	const Rectangle getBoundingBox() {
 		return Sprite::getBoundingBox();
