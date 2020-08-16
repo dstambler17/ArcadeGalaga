@@ -2,6 +2,7 @@
 #define Game_h
 #include "graphics.h"
 #include "player.h"
+#include "enemy.h"
 
 class Game {
     public:
@@ -23,6 +24,7 @@ class Game {
         bool isRunning;
         Graphics _graphics;
         Player _player;
+        EyeBot _eyebot;
 };
 
 #endif

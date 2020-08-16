@@ -18,7 +18,7 @@ public:
 
 
 	const float getX() const;
-	const float getY() const;
+	float getY();
 
 private:
 	float _dx, _dy;

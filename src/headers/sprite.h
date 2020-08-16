@@ -9,6 +9,9 @@ class Graphics;
 #include <string>
 #include <iostream>
 
+#include "rectangle.h"
+
+
 class Sprite {
 public:
     Sprite();
@@ -20,11 +23,13 @@ public:
 
 	const inline float getX() const { return this->_x; }
 	const inline float getY() const { return this->_y; }
+	const Rectangle getBoundingBox() const;
 
 protected:
 	SDL_Rect _sourceRect, _destRect;
 	SDL_Texture* _spriteTex;
 
+	Rectangle _boundingBox;
 	float _x, _y;
 private:
 };

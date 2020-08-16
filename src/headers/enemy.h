@@ -1,8 +1,8 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "headers/sprite.h"
-#include "headers/player.h"
+#include "sprite.h"
+#include "player.h"
 
 #include <string>
 
@@ -25,9 +25,11 @@ public:
 	void update();
 	void draw(Graphics &graphics);
 
+
 private:
 	float _startingX, _startingY;
 	bool _shouldMoveSide;
+	bool _positiveDir;
 };
 
 

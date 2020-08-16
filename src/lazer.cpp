@@ -24,6 +24,10 @@ void Lazer::travel() {
     }
 }
 
+float Lazer::getY(){
+    return this->_y;
+}
+
 void Lazer::update() {
     this->_y += this->_dy;
 }

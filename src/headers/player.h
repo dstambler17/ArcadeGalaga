@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "rectangle.h"
 #include "sprite.h"
 #include "lazer.h"
 #include <vector>
@@ -8,6 +9,7 @@ using std::vector;
 
 
 class Graphics;
+class Enemy;
 
 class Player : Sprite {
 public:
@@ -38,13 +40,23 @@ public:
 
     void fireLazer(Graphics &graphics);
 
+	void handleEnemyCollisions(Enemy &enemy);
+
+	const Rectangle getBoundingBox() {
+		return Sprite::getBoundingBox();
+	}
 
 	const float getX() const;
 	const float getY() const;
+	const int getHealth() const;
 
 private:
 	float _dx, _dy;
     int numLazers;
+	int health;
+	int invincibilityOn;
+	int invincibilityFrame;
+	SDL_Texture* _healthTex;
     vector<Lazer> _lazers;
 };
 
