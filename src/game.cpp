@@ -4,6 +4,7 @@
 #include "headers/graphics.h"
 #include "headers/player.h"
 #include "headers/level.h"
+#include "headers/textmanager.h"
 #include <string>
 #include <iostream>
 
@@ -12,6 +13,7 @@ Game::Game(){
     isRunning = true;
     this->_player = Player(_graphics);
     this->_level = Level(_graphics, 1);
+    this->_textmanager = TextManager(_graphics);
 }
 
 Game::~Game()
@@ -74,8 +76,15 @@ void Game::handleEvents(){
 void Game::update(){
     _player.update();
     _level.update(_player);
+    if (_level.getClear()){
+        isRunning = false;
+    }
     if (_player.getHealth() <= 0){
         isRunning = false;
+    }
+
+    if (_textmanager.getScore() < _player.getPlayerScore()){
+        _textmanager.updateScoreTex(_graphics, _player.getPlayerScore());
     }
 }
 
@@ -83,6 +92,7 @@ void Game::render(){
     _graphics.clear();
     _player.draw(_graphics);
     _level.draw(_graphics);
+    _textmanager.draw(_graphics);
     _graphics.flip();
 }
 

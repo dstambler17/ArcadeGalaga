@@ -31,6 +31,7 @@ EyeBot::EyeBot(Graphics &graphics, int spawnX, int spawnY):
 		_shouldMoveSide(true)
 {
 	this->health = 1;
+	this->points = 10;
 }
 
 void EyeBot::update() {

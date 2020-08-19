@@ -28,6 +28,7 @@ numLazers(player_constants::NUM_LAZERS_PER_SCREEN)
 {
     SDL_Surface* heartSurface = graphics.loadImage("content/sprites/heart.png");
     this->_healthTex = SDL_CreateTextureFromSurface(graphics.getRenderer(), heartSurface);
+    this->score = 0;
 }
 
 
@@ -137,6 +138,10 @@ void Player::handleLazerCollisions(Enemy* enemy) {
        this->_lazers.erase(this->_lazers.begin() + idx);
     }
     deleteIdx.clear();
+}
+
+void Player::updateScore(int points){
+    this->score += points;
 }
 
 void Player::draw(Graphics &graphics) {

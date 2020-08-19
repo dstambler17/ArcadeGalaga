@@ -40,6 +40,7 @@ public:
     void moveDown();
 
     void fireLazer(Graphics &graphics);
+	void updateScore(int points);
 
 	void handleEnemyCollisions(Enemy* enemy);
 	void handleLazerCollisions(Enemy* enemy);
@@ -51,6 +52,7 @@ public:
 	const float getX() const;
 	const float getY() const;
 	const int getHealth() const;
+	int getPlayerScore() { return this->score; }
 
 private:
 	float _dx, _dy;
@@ -58,6 +60,9 @@ private:
 	int health;
 	int invincibilityOn;
 	int invincibilityFrame;
+	int score;
+	int score_multiplier;
+
 	SDL_Texture* _healthTex;
     vector<Lazer> _lazers;
 };

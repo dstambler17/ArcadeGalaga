@@ -10,6 +10,7 @@ using std::vector;
 Level::Level() {}
 Level::Level(Graphics &graphics, int levelNum) {
     this->number = levelNum;
+    this->clear = false;
     this->_enemies.push_back(new EyeBot(graphics, 200, 100));
     this->_enemies.push_back(new EyeBot(graphics, 150, 200));
     this->_enemies.push_back(new EyeBot(graphics, 300, 300));
@@ -27,6 +28,7 @@ void Level::update(Player &_player) {
         _player.handleLazerCollisions(enemy);
         if (enemy->getHealth() <= 0){
             deleteIdx.push_back(i);
+            _player.updateScore(enemy->getPoints());
         }
         i += 1;
     }
@@ -35,6 +37,11 @@ void Level::update(Player &_player) {
        this->_enemies.erase(this->_enemies.begin() + idx);
     }
     deleteIdx.clear();
+
+    if (_enemies.size() == 0){
+        this->clear = true;
+    }
+
 }
 
 void Level::draw(Graphics &graphics) {

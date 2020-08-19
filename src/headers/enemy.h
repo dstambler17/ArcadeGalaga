@@ -19,9 +19,11 @@ public:
 	void loseHealth(int damage);
 
 	int getHealth() {return this->health;}
+	int getPoints() {return this->points;}
 
 protected:
 	int health;
+	int points;
 };
 
 

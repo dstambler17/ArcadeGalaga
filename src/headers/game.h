@@ -3,6 +3,8 @@
 #include "graphics.h"
 #include "player.h"
 #include "level.h"
+#include "textmanager.h"
+
 
 class Game {
     public:
@@ -20,11 +22,12 @@ class Game {
 
     private:
         
-
         bool isRunning;
         Graphics _graphics;
         Player _player;
         Level _level;
+        TextManager _textmanager;
+        SDL_Texture* _scoreTex;
 };
 
 #endif

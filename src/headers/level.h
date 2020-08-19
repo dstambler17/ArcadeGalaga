@@ -22,9 +22,12 @@ class Level {
         void update(Player &_player);
         void draw(Graphics &graphics);
 
+        bool getClear() { return this->clear; }
+
 
     private:
         int number;
+        bool clear;
         SDL_Texture* _backgroundText;
         vector<Enemy*> _enemies;
 

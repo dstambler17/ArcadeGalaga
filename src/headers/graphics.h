@@ -6,6 +6,7 @@
  */
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 #include <map>
 #include <string>
@@ -24,6 +25,8 @@ public:
 	 * Returns the image from the map regardless of whether or not it was just loaded
 	 */
 	SDL_Surface* loadImage(const std::string &filePath);
+
+	SDL_Surface* loadText(const std::string &fontPath, const std::string &text, int fontSize);
 
 	/* void blitSurface
 	 * Draws a texture to a certain part of the screen
@@ -50,6 +53,7 @@ private:
 	SDL_Window* _window;
 	SDL_Renderer* _renderer;
 	std::map<std::string, SDL_Surface*> _spriteSheets;
+	std::map<std::string, TTF_Font*> _fonts;
 };
 
 #endif
