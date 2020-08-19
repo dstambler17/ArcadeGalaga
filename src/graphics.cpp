@@ -37,7 +37,7 @@ SDL_Surface* Graphics::loadText(const std::string &fontPath, const std::string &
         std::cout << "Init No work" << std::endl;
     }
 
-    SDL_Color text_color = {0,0,0};
+    SDL_Color text_color = {255,255,255};
     if (this->_fonts.count(fontPath) == 0) {
         
         this->_fonts[fontPath] = TTF_OpenFont(fontPath.c_str(), fontSize);

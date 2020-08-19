@@ -5,15 +5,45 @@
 #include <string>
 #include <iostream>
 #include <vector>
-using std::vector;
+#include <filesystem>
+namespace fs = std::__fs::filesystem;
 
 Level::Level() {}
 Level::Level(Graphics &graphics, int levelNum) {
+
+    /*SDL_Surface* bgSurfaceOne = graphics.loadImage("content/backgrounds/space1.png");
+    SDL_Surface* bgSurfaceTwo = graphics.loadImage("content/backgrounds/space2.png");
+    SDL_Surface* bgSurfaceThree = graphics.loadImage("content/backgrounds/space3.png");
+    SDL_Surface* bgSurfaceFour = graphics.loadImage("content/backgrounds/space4.png");
+    SDL_Surface* bgSurfaceFive = graphics.loadImage("content/backgrounds/space5.png");
+
+    this->_backgroundTextures.push_back(SDL_CreateTextureFromSurface(graphics.getRenderer(), bgSurfaceOne));
+    this->_backgroundTextures.push_back(SDL_CreateTextureFromSurface(graphics.getRenderer(), bgSurfaceTwo));
+    this->_backgroundTextures.push_back(SDL_CreateTextureFromSurface(graphics.getRenderer(), bgSurfaceThree));
+    this->_backgroundTextures.push_back(SDL_CreateTextureFromSurface(graphics.getRenderer(), bgSurfaceFour));
+    this->_backgroundTextures.push_back(SDL_CreateTextureFromSurface(graphics.getRenderer(), bgSurfaceFive));*/
+    fs::path pathToShow("content/backgrounds/");
+    for (const auto& entry : fs::directory_iterator(pathToShow)) {
+        auto file = entry.path().filename();
+        std::string pathString = "content/backgrounds/" + file.u8string();
+        SDL_Surface* bgSurface = graphics.loadImage(pathString);
+        std::cout << file.c_str() << std::endl;
+        if (!bgSurface){
+            std::cout << "ERROR" << std::endl;
+        } else {
+            this->_backgroundTextures.push_back(SDL_CreateTextureFromSurface(graphics.getRenderer(), bgSurface));
+        }
+    }
+        
+
+
     this->number = levelNum;
     this->clear = false;
     this->_enemies.push_back(new EyeBot(graphics, 200, 100));
     this->_enemies.push_back(new EyeBot(graphics, 150, 200));
     this->_enemies.push_back(new EyeBot(graphics, 300, 300));
+
+    
 }
 
 void Level::update(Player &_player) {
@@ -45,6 +75,18 @@ void Level::update(Player &_player) {
 }
 
 void Level::draw(Graphics &graphics) {
+    //Draw BG First
+    SDL_Rect bgTile = {0,0,100, 100};
+    int tile_num = 0;
+    for (int x = 0; x < 8; x++){
+        bgTile.x = x * 100;
+        for (int y = 0; y < 6; y++){
+            bgTile.y = y * 100;
+            graphics.blitSurface(this->_backgroundTextures.at(tile_num), NULL, &bgTile);
+            tile_num = (tile_num + 1) % this->_backgroundTextures.size();
+           
+        }
+    }
     for (Enemy* enemy : _enemies){
         enemy->draw(graphics);
     }

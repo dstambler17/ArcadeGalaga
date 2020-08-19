@@ -90,8 +90,8 @@ void Game::update(){
 
 void Game::render(){
     _graphics.clear();
-    _player.draw(_graphics);
     _level.draw(_graphics);
+    _player.draw(_graphics);
     _textmanager.draw(_graphics);
     _graphics.flip();
 }

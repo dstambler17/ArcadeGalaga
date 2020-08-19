@@ -28,7 +28,7 @@ class Level {
     private:
         int number;
         bool clear;
-        SDL_Texture* _backgroundText;
+        vector<SDL_Texture*> _backgroundTextures;
         vector<Enemy*> _enemies;
 
 };
