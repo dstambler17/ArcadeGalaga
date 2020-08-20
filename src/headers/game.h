@@ -4,7 +4,7 @@
 #include "player.h"
 #include "level.h"
 #include "textmanager.h"
-
+#include "audio.h"
 
 class Game {
     public:
@@ -28,6 +28,7 @@ class Game {
         Level _level;
         TextManager _textmanager;
         SDL_Texture* _scoreTex;
+        Audio _audio;
 };
 
 #endif

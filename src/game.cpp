@@ -5,15 +5,17 @@
 #include "headers/player.h"
 #include "headers/level.h"
 #include "headers/textmanager.h"
+#include "headers/audio.h"
 #include <string>
 #include <iostream>
 
 Game::Game(){
-    //SDL_Init(SDL_INIT_EVERYTHING);
     isRunning = true;
     this->_player = Player(_graphics);
     this->_level = Level(_graphics, 1);
     this->_textmanager = TextManager(_graphics);
+    std::cout << "CALL TESTER" <<std::endl;
+    this->_audio.load("content/audio/explosion.wav");
 }
 
 Game::~Game()
@@ -59,6 +61,7 @@ void Game::handleEvents(){
             if(event.key.keysym.sym == SDLK_s) { // fire lazer
                 std::cout << "pew pew" << std::endl;
                 this-> _player.fireLazer(_graphics);
+                this->_audio.play();
             }
             
             break;
