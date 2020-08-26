@@ -62,9 +62,11 @@ private:
 	int invincibilityFrame;
 	int score;
 	int score_multiplier;
+	int rechargeTime;
 
 	SDL_Texture* _healthTex;
     vector<Lazer> _lazers;
+
 };
 
 #endif

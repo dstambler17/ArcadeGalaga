@@ -14,6 +14,7 @@ namespace player_constants {
     const int NUM_LAZERS_PER_SCREEN = 0;
     const int SCREEN_WIDTH = 750;
     const int SCREEN_HIGHT = 550;
+    const int RECHARGE_TIME = 10;
 }
 
 Player::Player() {}
@@ -29,6 +30,7 @@ numLazers(player_constants::NUM_LAZERS_PER_SCREEN)
     SDL_Surface* heartSurface = graphics.loadImage("content/sprites/heart.png");
     this->_healthTex = SDL_CreateTextureFromSurface(graphics.getRenderer(), heartSurface);
     this->score = 0;
+    this->rechargeTime = 0;
 }
 
 
@@ -63,8 +65,12 @@ void Player::moveDown() {
 }
 
 void Player::fireLazer(Graphics &graphics){
-    this->_lazers.push_back(Lazer(graphics, true, this->_x + 15, this->_y));
-    this->numLazers += 1;
+    if (this->rechargeTime == 0){
+        this->_lazers.push_back(Lazer(graphics, true, this->_x + 15, this->_y));
+        this->numLazers += 1;
+        this->rechargeTime = player_constants::RECHARGE_TIME;
+    }
+    
 }
 
 
@@ -108,6 +114,9 @@ void Player::update() {
        this->_lazers.erase(this->_lazers.begin() + idx);
     }
     deleteIdx.clear();
+    if (this->rechargeTime > 0){
+        this->rechargeTime -= 1;
+    }
     Sprite::update();
 }
 

@@ -11,17 +11,7 @@ namespace fs = std::__fs::filesystem;
 Level::Level() {}
 Level::Level(Graphics &graphics, int levelNum) {
 
-    /*SDL_Surface* bgSurfaceOne = graphics.loadImage("content/backgrounds/space1.png");
-    SDL_Surface* bgSurfaceTwo = graphics.loadImage("content/backgrounds/space2.png");
-    SDL_Surface* bgSurfaceThree = graphics.loadImage("content/backgrounds/space3.png");
-    SDL_Surface* bgSurfaceFour = graphics.loadImage("content/backgrounds/space4.png");
-    SDL_Surface* bgSurfaceFive = graphics.loadImage("content/backgrounds/space5.png");
-
-    this->_backgroundTextures.push_back(SDL_CreateTextureFromSurface(graphics.getRenderer(), bgSurfaceOne));
-    this->_backgroundTextures.push_back(SDL_CreateTextureFromSurface(graphics.getRenderer(), bgSurfaceTwo));
-    this->_backgroundTextures.push_back(SDL_CreateTextureFromSurface(graphics.getRenderer(), bgSurfaceThree));
-    this->_backgroundTextures.push_back(SDL_CreateTextureFromSurface(graphics.getRenderer(), bgSurfaceFour));
-    this->_backgroundTextures.push_back(SDL_CreateTextureFromSurface(graphics.getRenderer(), bgSurfaceFive));*/
+   
     fs::path pathToShow("content/backgrounds/");
     for (const auto& entry : fs::directory_iterator(pathToShow)) {
         auto file = entry.path().filename();
@@ -39,9 +29,12 @@ Level::Level(Graphics &graphics, int levelNum) {
 
     this->number = levelNum;
     this->clear = false;
-    this->_enemies.push_back(new EyeBot(graphics, 200, 100));
-    this->_enemies.push_back(new EyeBot(graphics, 150, 200));
-    this->_enemies.push_back(new EyeBot(graphics, 300, 300));
+    this->_enemies.push_back(new EyeBot(graphics, 200, 100, true));
+    this->_enemies.push_back(new EyeBot(graphics, 150, 200, true));
+    this->_enemies.push_back(new EyeBot(graphics, 300, 300, false));
+    this->_enemies.push_back(new UFO(graphics, 325, 250, false));
+    this->_enemies.push_back(new UFO(graphics, 600, 375, true));
+    this->_enemies.push_back(new EnemyShip(graphics, 420, 50, true));
 
     
 }
