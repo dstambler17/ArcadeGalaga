@@ -66,7 +66,7 @@ void Player::moveDown() {
 
 void Player::fireLazer(Graphics &graphics){
     if (this->rechargeTime == 0){
-        this->_lazers.push_back(Lazer(graphics, true, this->_x + 15, this->_y));
+        this->_lazers.push_back(Lazer(graphics, true, this->_x + 15, this->_y, "content/sprites/lazer.png"));
         this->numLazers += 1;
         this->rechargeTime = player_constants::RECHARGE_TIME;
     }

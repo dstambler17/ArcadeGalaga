@@ -48,7 +48,7 @@ void Game::handleEvents(){
             if(event.key.keysym.sym == SDLK_s) { // fire lazer
                 std::cout << "pew pew" << std::endl;
                 this-> _player.fireLazer(_graphics);
-                this->_audio.play();
+                //this->_audio.play();
             }
             
             break;
@@ -67,9 +67,11 @@ void Game::update(){
     _player.update();
     _level.update(_player);
     if (_level.getClear()){
+        std::cout << "WINNER" <<std::endl;
         isRunning = false;
     }
     if (_player.getHealth() <= 0){
+        std::cout << "HEALTH TO NULL" <<std::endl;
         isRunning = false;
     }
 

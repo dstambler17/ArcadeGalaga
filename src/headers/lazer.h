@@ -10,7 +10,7 @@ class Enemy;
 
 class Lazer : public Sprite {
 public:
-	Lazer(Graphics &graphics, bool travelingUp, int start_x, int start_y);
+	Lazer(Graphics &graphics, bool travelingUp, int start_x, int start_y, std::string lazerPath);
 	void draw(Graphics &graphics);
 	void update();
 

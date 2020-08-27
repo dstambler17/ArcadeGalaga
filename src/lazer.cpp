@@ -6,8 +6,8 @@
 
 
 
-Lazer::Lazer(Graphics &graphics, bool travelingUp, int start_x, int start_y):
-Sprite(graphics, "content/sprites/lazer.png",20, 25, start_x, start_y),
+Lazer::Lazer(Graphics &graphics, bool travelingUp, int start_x, int start_y, std::string lazerPath):
+Sprite(graphics, lazerPath, 20, 25, start_x, start_y),
 _dx(start_x),
 _dy(start_y)
 {   
