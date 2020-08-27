@@ -4,8 +4,10 @@
 #include "rectangle.h"
 #include "sprite.h"
 #include "enemy.h"
+#include "player.h"
 
 class Graphics;
+class Player;
 class Enemy;
 
 class Lazer : public Sprite {
@@ -19,6 +21,7 @@ public:
 	 */
 	void travel();
 	void collideWithEnemy(Enemy* enemy);
+	void collideWithPlayer(Player* player);
 
 	const Rectangle getBoundingBox() {
 		return Sprite::getBoundingBox();

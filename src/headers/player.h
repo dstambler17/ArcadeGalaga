@@ -42,7 +42,7 @@ public:
     void fireLazer(Graphics &graphics);
 	void updateScore(int points);
 
-	void handleEnemyCollisions(Enemy* enemy);
+	void handleEnemyCollisions();
 	void handleLazerCollisions(Enemy* enemy);
 
 	const Rectangle getBoundingBox() {

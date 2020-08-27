@@ -19,7 +19,7 @@ class Level {
         /*void init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
         */
         void handleEvents();
-        void update(Player &_player);
+        void update(Player &_player, Graphics &_graphics);
         void draw(Graphics &graphics);
 
         bool getClear() { return this->clear; }

@@ -39,16 +39,21 @@ Level::Level(Graphics &graphics, int levelNum) {
     
 }
 
-void Level::update(Player &_player) {
+void Level::update(Player &_player, Graphics &_graphics) {
      vector<int> deleteIdx;
     int i = 0;
     for (int c = 0; c < this->_enemies.size(); c++){
-        this->_enemies.at(c)->update();
+        if (_enemies.at(c)->getCanFireLazers()){
+            this->_enemies.at(c)->update(_graphics);
+        } else {
+            this->_enemies.at(c)->update();
+        }
         Enemy* enemy = this->_enemies.at(c);
         if (enemy->getBoundingBox().collidesWith(_player.getBoundingBox())) {
-		    _player.handleEnemyCollisions(enemy);
+		    _player.handleEnemyCollisions();
 	    }
         _player.handleLazerCollisions(enemy);
+        enemy->handleLazerCollisions(&_player);
         if (enemy->getHealth() <= 0){
             deleteIdx.push_back(i);
             _player.updateScore(enemy->getPoints());

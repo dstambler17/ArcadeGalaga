@@ -120,7 +120,7 @@ void Player::update() {
     Sprite::update();
 }
 
-void Player::handleEnemyCollisions(Enemy* enemy) {
+void Player::handleEnemyCollisions() {
     std::cout << "COLLISION TEST" << std::endl;
     if (!this->invincibilityOn){
         this->health -= 1;

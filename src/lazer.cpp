@@ -33,6 +33,10 @@ void Lazer::collideWithEnemy(Enemy* enemy){
     enemy->loseHealth(this->damage);
 }
 
+void Lazer::collideWithPlayer(Player* player){
+    player->handleEnemyCollisions();
+}
+
 void Lazer::update() {
     this->_y += this->_dy;
     Sprite::update();

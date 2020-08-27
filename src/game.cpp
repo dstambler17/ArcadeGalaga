@@ -65,7 +65,7 @@ void Game::handleEvents(){
 
 void Game::update(){
     _player.update();
-    _level.update(_player);
+    _level.update(_player, _graphics);
     if (_level.getClear()){
         std::cout << "WINNER" <<std::endl;
         isRunning = false;

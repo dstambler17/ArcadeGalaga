@@ -1,4 +1,10 @@
 #include "headers/enemy.h"
+#include "headers/lazer.h"
+
+#include <string>
+#include <iostream>
+#include <vector>
+using std::vector;
 
 
 namespace enemy_constants {
@@ -18,6 +24,11 @@ Enemy::Enemy(Graphics &graphics, std::string filePath, int spawnX, int spawnY,
 	this->trueStart = startY;
 }
 
+void Enemy::fireLazer(Graphics &graphics){
+    this->_lazers.push_back(Lazer(graphics, false, this->_x + 15, this->_y + 5, "content/sprites/lazerEnemy.png"));
+}
+
+void Enemy::update(Graphics & graphics){}
 void Enemy::update() {
 	if (!this->inStartingPos){
 		this->moveToStart();
@@ -36,7 +47,48 @@ void Enemy::update() {
 		}
 		this->_positiveDir = (this->_y < 540 && this->_y > 10) ? this->_positiveDir: !this->_positiveDir;
 	}
+	vector<int> deleteIdx;
+    if (this->_lazers.size() > 0){
+        int i = 0;
+        for (Lazer &lazer : this->_lazers){
+            if (lazer.getY() >= -20){
+                lazer.travel();
+                lazer.update();
+            } else{
+                deleteIdx.push_back(i);
+                //std::cout << this->_lazers.size() << std::endl;
+            }
+            i += 1;
+        }
+    }
+    //Clear All Lazers
+
+    //Remove Lazers that are no longer used
+    for (int idx : deleteIdx){
+       this->_lazers.erase(this->_lazers.begin() + idx);
+    }
+    deleteIdx.clear();
 	Sprite::update();
+}
+
+void Enemy::handleLazerCollisions(Player* player) {
+    //Collect Collided with enemies
+    vector<int> deleteIdx;
+    if (this->_lazers.size() > 0){
+        int i = 0;
+        for (Lazer &lazer : this->_lazers){
+            if (lazer.getBoundingBox().collidesWith(player->getBoundingBox())){
+                lazer.collideWithPlayer(player);
+                deleteIdx.push_back(i);
+            }
+            i += 1;
+        }
+    }
+    //Remove Lazers that are no longer used
+    for (int idx : deleteIdx){
+       this->_lazers.erase(this->_lazers.begin() + idx);
+    }
+    deleteIdx.clear();
 }
 
 void Enemy::loseHealth(int damage){
@@ -51,6 +103,11 @@ void Enemy::moveToStart(){
 }
 
 void Enemy::draw(Graphics &graphics) {
+	if (this->_lazers.size() > 0){
+        for (Lazer &lazer : this->_lazers){
+            lazer.draw(graphics);
+        }   
+    }
 	Sprite::draw(graphics, this->_x, this->_y);
 }
 
@@ -115,9 +172,17 @@ EnemyShip::EnemyShip(Graphics &graphics, int spawnX, int spawnY, bool shouldMove
 	this->points = 100;
 	this->_shouldMoveSide = shouldMoveSide;
 	this->speed = 1;
+	this->canFireLazers = true;
 }
 
-void EnemyShip::update() {
+
+
+void EnemyShip::update(Graphics &graphics) {
+	if (((int) this->getX()) % 50 == 0 && this->getInStartPos()){
+		//EnemyShip* e = dynamic_cast<EnemyShip*>(enemy);
+		this->fireLazer(graphics);
+		//e->handleLazerCollisions(_player);
+    }
 	Enemy::update();
 }
 
