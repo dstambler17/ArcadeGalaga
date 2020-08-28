@@ -64,7 +64,6 @@ private:
 };
 
 
-
 class UFO : public Enemy {
 public:
 	UFO();

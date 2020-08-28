@@ -9,7 +9,7 @@
 namespace fs = std::__fs::filesystem;
 
 Level::Level() {}
-Level::Level(Graphics &graphics, int levelNum) {
+Level::Level(Graphics &graphics, int levelNum, vector<vector<int>> enemyList) {
 
    
     fs::path pathToShow("content/backgrounds/");
@@ -29,12 +29,30 @@ Level::Level(Graphics &graphics, int levelNum) {
 
     this->number = levelNum;
     this->clear = false;
-    this->_enemies.push_back(new EyeBot(graphics, 200, 100, true));
+    for (vector<int> enemyData : enemyList){
+        int x_val = enemyData[1];
+        int y_val = enemyData[2];
+        bool side = enemyData[3];
+        switch(enemyData[0]) {
+            case 1:
+                this->_enemies.push_back(new EyeBot(graphics, x_val, y_val, side));
+                 break;
+            case 2:
+                this->_enemies.push_back(new UFO(graphics, x_val, y_val, side));
+                break;
+            case 3:
+                this->_enemies.push_back(new EnemyShip(graphics, x_val, y_val, side));
+                break;
+            default :
+                break;
+        }
+    }
+    /*this->_enemies.push_back(new EyeBot(graphics, 200, 100, true));
     this->_enemies.push_back(new EyeBot(graphics, 150, 200, true));
     this->_enemies.push_back(new EyeBot(graphics, 300, 300, false));
     this->_enemies.push_back(new UFO(graphics, 325, 250, false));
     this->_enemies.push_back(new UFO(graphics, 600, 375, true));
-    this->_enemies.push_back(new EnemyShip(graphics, 420, 50, true));
+    this->_enemies.push_back(new EnemyShip(graphics, 420, 50, true));*/
 
     
 }

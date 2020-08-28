@@ -5,6 +5,8 @@
 #include "level.h"
 #include "textmanager.h"
 #include "audio.h"
+#include <vector>
+
 
 class Game {
     public:

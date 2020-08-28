@@ -6,13 +6,25 @@
 #include "headers/level.h"
 #include "headers/textmanager.h"
 #include "headers/audio.h"
+
 #include <string>
 #include <iostream>
+#include <vector>
+
 
 Game::Game(){
     isRunning = true;
     this->_player = Player(_graphics);
-    this->_level = Level(_graphics, 1);
+    //Each vector will have 4 variables: enemy number, x_start, y_start, true/false
+    /*
+    Enemy int reference:
+        1. EyeBot
+        2. UFO
+        3. EnemyShip
+    */
+    vector<vector<int>> levelOneInfo{ {1, 150, 200, 1}, {2, 325, 250, 0},
+                {2, 600, 375, 1}, {3, 420, 50, 1}}; 
+    this->_level = Level(_graphics, 1, levelOneInfo);
     this->_textmanager = TextManager(_graphics);
     std::cout << "CALL TESTER" <<std::endl;
     

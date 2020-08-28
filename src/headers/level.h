@@ -4,6 +4,8 @@
 #include "player.h"
 #include "enemy.h"
 
+#include <string>
+#include <iostream>
 #include <vector>
 using std::vector;
 
@@ -14,7 +16,7 @@ class Enemy;
 class Level {
     public:
         Level();
-        Level(Graphics &graphics, int levelNum);
+        Level(Graphics &graphics, int levelNum, vector<vector<int>> enemyList);
 
         /*void init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
         */
