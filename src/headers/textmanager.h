@@ -10,6 +10,8 @@ class TextManager {
         TextManager(Graphics &graphics);
 
         void updateScoreTex(Graphics &graphics, int score);
+        void updateLevelTex(Graphics &graphics, int level);
+
         void draw(Graphics &graphics);
         
         int getScore() { return this->_score; }

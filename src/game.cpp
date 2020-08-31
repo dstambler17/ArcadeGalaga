@@ -15,16 +15,20 @@
 Game::Game(){
     isRunning = true;
     this->_player = Player(_graphics);
-    //Each vector will have 4 variables: enemy number, x_start, y_start, true/false
+    //Each vector will have 4 variables: enemy number, x_start, y_start, true/false, is boss true/false
     /*
     Enemy int reference:
         1. EyeBot
         2. UFO
         3. EnemyShip
+        4. BossShip
     */
-    vector<vector<int>> levelOneInfo{ {1, 150, 200, 1}, {2, 325, 250, 0},
-                {2, 600, 375, 1}, {3, 420, 50, 1}}; 
-    this->_level = Level(_graphics, 1, levelOneInfo);
+    vector<vector<int>> levelOneInfo{{3, 420, 50, 1, 0}, {1, 150, 200, 1, 0}, {2, 325, 250, 0, 0},
+                {2, 600, 375, 1, 0}, {1, 200, 100, 1, 0}, {1, 300, 300, 0, 0}, {4, 300, 30, 1, 1}};
+    vector<vector<int>> levelTwoInfo{{3, 420, 50, 1, 0}, {4, 150, 200, 1, 0}, {2, 325, 250, 0, 0},
+                {2, 600, 375, 1, 0}, {1, 200, 100, 1, 0}, {1, 300, 300, 0, 0}, {2, 300, 30, 1, 1}};
+    this->_levels.push_back(new Level(_graphics, 1, levelOneInfo));  
+    this->_levels.push_back(new Level(_graphics, 2, levelTwoInfo));  
     this->_textmanager = TextManager(_graphics);
     std::cout << "CALL TESTER" <<std::endl;
     
@@ -77,10 +81,20 @@ void Game::handleEvents(){
 
 void Game::update(){
     _player.update();
-    _level.update(_player, _graphics);
-    if (_level.getClear()){
-        std::cout << "WINNER" <<std::endl;
-        isRunning = false;
+    Level* curLevel = this->_levels.at(0);
+    curLevel->update(_player, _graphics);
+    //EITHER LOAD NEXT LEVEL OR CLEAR
+    if (curLevel->getClear()){
+        std::cout << "WINNER OF LEVEL" <<std::endl;
+        this->_levels.erase(this->_levels.begin());
+        if (this->_levels.size() == 0){
+            std::cout << "WINNER OF GAME" <<std::endl;
+            isRunning = false;
+        } else {
+            Level* nextLevel = this->_levels.at(0);
+            _textmanager.updateLevelTex(_graphics, nextLevel->getLevelNumber());
+        }
+        
     }
     if (_player.getHealth() <= 0){
         std::cout << "HEALTH TO NULL" <<std::endl;
@@ -94,7 +108,9 @@ void Game::update(){
 
 void Game::render(){
     _graphics.clear();
-    _level.draw(_graphics);
+    if (_levels.size() > 0){
+        _levels.at(0)->draw(_graphics);
+    }
     _player.draw(_graphics);
     _textmanager.draw(_graphics);
     _graphics.flip();

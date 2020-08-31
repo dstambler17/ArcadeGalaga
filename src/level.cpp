@@ -26,38 +26,48 @@ Level::Level(Graphics &graphics, int levelNum, vector<vector<int>> enemyList) {
     }
         
 
-
+    this->enemiesPerScreen = 5; //NOTE: SHOULD BE A CONSTRUCTOR PARAM
     this->number = levelNum;
     this->clear = false;
     for (vector<int> enemyData : enemyList){
         int x_val = enemyData[1];
         int y_val = enemyData[2];
         bool side = enemyData[3];
+        bool isBoss = enemyData[4];
+        vector<Enemy*> *pushList = (isBoss) ? &this->_bosses: &this->_enemiesBacklog; 
         switch(enemyData[0]) {
             case 1:
-                this->_enemies.push_back(new EyeBot(graphics, x_val, y_val, side));
+                pushList->push_back(new EyeBot(graphics, x_val, y_val, side));
                  break;
             case 2:
-                this->_enemies.push_back(new UFO(graphics, x_val, y_val, side));
+                pushList->push_back(new UFO(graphics, x_val, y_val, side));
                 break;
             case 3:
-                this->_enemies.push_back(new EnemyShip(graphics, x_val, y_val, side));
+                pushList->push_back(new EnemyShip(graphics, x_val, y_val, side));
+                break;
+            case 4:
+                pushList->push_back(new BossShip(graphics, x_val, y_val, side));
                 break;
             default :
                 break;
         }
     }
-    /*this->_enemies.push_back(new EyeBot(graphics, 200, 100, true));
-    this->_enemies.push_back(new EyeBot(graphics, 150, 200, true));
-    this->_enemies.push_back(new EyeBot(graphics, 300, 300, false));
-    this->_enemies.push_back(new UFO(graphics, 325, 250, false));
-    this->_enemies.push_back(new UFO(graphics, 600, 375, true));
-    this->_enemies.push_back(new EnemyShip(graphics, 420, 50, true));*/
-
-    
 }
 
+
 void Level::update(Player &_player, Graphics &_graphics) {
+
+    /* Pull From backlog if less than ENEMIES PER SCREEN in enemies */
+    while (this->_enemies.size() < this->enemiesPerScreen && this->_enemiesBacklog.size() > 0){
+        this->_enemies.push_back(this->_enemiesBacklog.back());
+        this->_enemiesBacklog.pop_back();
+    }
+
+    while (this->_enemies.size() == 0 && this->_enemiesBacklog.size() == 0 && this->_bosses.size() > 0){
+        this->_enemies.push_back(this->_bosses.back());
+        this->_bosses.pop_back();
+    }
+
      vector<int> deleteIdx;
     int i = 0;
     for (int c = 0; c < this->_enemies.size(); c++){
@@ -84,7 +94,7 @@ void Level::update(Player &_player, Graphics &_graphics) {
     }
     deleteIdx.clear();
 
-    if (_enemies.size() == 0){
+    if (_enemies.size() == 0 && this->_enemiesBacklog.size() == 0 && this->_bosses.size() == 0){
         this->clear = true;
     }
 

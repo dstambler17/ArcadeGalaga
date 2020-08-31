@@ -24,8 +24,8 @@ Enemy::Enemy(Graphics &graphics, std::string filePath, int spawnX, int spawnY,
 	this->trueStart = startY;
 }
 
-void Enemy::fireLazer(Graphics &graphics){
-    this->_lazers.push_back(Lazer(graphics, false, this->_x + 15, this->_y + 5, "content/sprites/lazerEnemy.png"));
+void Enemy::fireLazer(Graphics &graphics, int xPlus, int yPlus){
+    this->_lazers.push_back(Lazer(graphics, false, this->_x + xPlus, this->_y + yPlus, "content/sprites/lazerEnemy.png"));
 }
 
 void Enemy::update(Graphics & graphics){}
@@ -51,7 +51,7 @@ void Enemy::update() {
     if (this->_lazers.size() > 0){
         int i = 0;
         for (Lazer &lazer : this->_lazers){
-            if (lazer.getY() >= -20){
+            if (lazer.getY() <= enemy_constants::SCREEN_HIGHT + 20){
                 lazer.travel();
                 lazer.update();
             } else{
@@ -180,7 +180,7 @@ EnemyShip::EnemyShip(Graphics &graphics, int spawnX, int spawnY, bool shouldMove
 void EnemyShip::update(Graphics &graphics) {
 	if (((int) this->getX()) % 50 == 0 && this->getInStartPos()){
 		//EnemyShip* e = dynamic_cast<EnemyShip*>(enemy);
-		this->fireLazer(graphics);
+		this->fireLazer(graphics, 15, 5);
 		//e->handleLazerCollisions(_player);
     }
 	Enemy::update();
@@ -188,6 +188,37 @@ void EnemyShip::update(Graphics &graphics) {
 
 
 void EnemyShip::draw(Graphics &graphics) {
+	Enemy::draw(graphics);
+}
+
+
+//Boss Ship Class
+BossShip::BossShip() {}
+
+BossShip::BossShip(Graphics &graphics, int spawnX, int spawnY, bool shouldMoveSide):
+		Enemy(graphics, "content/sprites/boss.png", spawnX, enemy_constants::ABOVE_SCREEN_SPAWN, 250, 250, spawnY),
+		_startingX(spawnX),
+		_startingY(spawnY)
+{
+	this->health = 20;
+	this->points = 2000;
+	this->_shouldMoveSide = shouldMoveSide;
+	this->speed = 2;
+	this->canFireLazers = true;
+}
+
+
+
+void BossShip::update(Graphics &graphics) {
+	if (((int) this->getX()) % 100 == 0 && this->getInStartPos()){
+		//EnemyShip* e = dynamic_cast<EnemyShip*>(enemy);
+		this->fireLazer(graphics, 100, 100);
+    }
+	Enemy::update();
+}
+
+
+void BossShip::draw(Graphics &graphics) {
 	Enemy::draw(graphics);
 }
 

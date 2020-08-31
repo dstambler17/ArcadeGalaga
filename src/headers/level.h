@@ -24,14 +24,20 @@ class Level {
         void update(Player &_player, Graphics &_graphics);
         void draw(Graphics &graphics);
 
+        int getLevelNumber() {return this->number;}
+
         bool getClear() { return this->clear; }
 
 
     private:
+
         int number;
+        int enemiesPerScreen;
         bool clear;
         vector<SDL_Texture*> _backgroundTextures;
         vector<Enemy*> _enemies;
+        vector<Enemy*> _enemiesBacklog;
+        vector<Enemy*> _bosses;
 
 };
 

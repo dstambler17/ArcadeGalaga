@@ -29,7 +29,7 @@ public:
 	void moveToStart();
 
 	/*Not all enemies can do this but w.e*/
-	void fireLazer(Graphics &graphics);
+	void fireLazer(Graphics &graphics, int xPlus, int yPlus);
 
 
 	int getHealth() {return this->health;}
@@ -88,6 +88,21 @@ public:
 private:
 	float _startingX, _startingY;
 };
+
+
+
+class BossShip : public Enemy {
+public:
+	BossShip();
+	BossShip(Graphics &graphics, int spawnX, int spawnY, bool shouldMoveSide);
+	void update(Graphics &graphics);
+	void draw(Graphics &graphics);
+
+
+private:
+	float _startingX, _startingY;
+};
+
 
 
 #endif

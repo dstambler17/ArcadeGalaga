@@ -27,7 +27,7 @@ class Game {
         bool isRunning;
         Graphics _graphics;
         Player _player;
-        Level _level;
+        vector<Level*> _levels;
         TextManager _textmanager;
         SDL_Texture* _scoreTex;
         Audio _audio;
