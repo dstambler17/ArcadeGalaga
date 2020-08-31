@@ -53,6 +53,10 @@ public:
 	const float getY() const;
 	const int getHealth() const;
 	int getPlayerScore() { return this->score; }
+	void setPlayerScore(int num) { this->score = num; }
+	void setPlayerHealth(int num) { this->health = num; }
+	void clearLazers() { this->numLazers = 0; this->_lazers.clear(); }
+
 
 private:
 	float _dx, _dy;

@@ -5,8 +5,8 @@ CPPFLAGS= -I include -L lib -l SDL2-2.0.0 -I include -L lib -l SDL2_image-2.0.0 
 #CPPFLAGS=-I include -l SDL2-2.0.0 -I include -l SDL2_image-2.0.0
 DEPS = src/headers/game.h src/headers/graphics.h src/headers/sprite.h src/headers/player.h \
  	   src/headers/lazer.h src/headers/enemy.h src/headers/rectangle.h src/headers/level.h src/headers/textmanager.h \
-	   src/headers/audio.h
-OBJ = main.o game.o level.o graphics.o sprite.o player.o lazer.o enemy.o textmanager.o audio.o
+	   src/headers/audio.h src/headers/endscreen.h
+OBJ = main.o game.o level.o graphics.o sprite.o player.o lazer.o enemy.o textmanager.o audio.o endscreen.o
 
 %.o: src/%.cpp $(DEPS)
 	$(CXX) -std=c++11 -c -o $@ $<

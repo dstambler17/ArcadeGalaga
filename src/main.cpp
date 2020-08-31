@@ -17,8 +17,12 @@ int main(){
     while (game->running()){
         frameStart = SDL_GetTicks();
 
-        game->handleEvents();
-        game->update();
+        if (game->isGameOver || game->isGameWin){
+            game->handleGameEndEvents();
+        } else {
+            game->handleEvents();
+            game->update();
+        }
         game->render();
 
         frameTime = SDL_GetTicks() - frameStart;

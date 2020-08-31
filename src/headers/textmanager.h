@@ -2,25 +2,23 @@
 #define TextManager_h
 #include "graphics.h"
 
+#include <string> 
+
 class Graphics;
 
 class TextManager {
     public:
         TextManager();
-        TextManager(Graphics &graphics);
+        TextManager(Graphics &graphics, std::string initText, std::string fontPath);
 
-        void updateScoreTex(Graphics &graphics, int score);
-        void updateLevelTex(Graphics &graphics, int level);
+        void updateTex(Graphics &graphics, std::string newText);
 
-        void draw(Graphics &graphics);
+        void draw(Graphics &graphics, SDL_Rect* rect);
         
-        int getScore() { return this->_score; }
-
 
     private:
-        int _score;
-        SDL_Texture* _scoreTex;
-        SDL_Texture* _levelTex;
+        std::string _fontPath;
+        SDL_Texture* _tex;
 };
 
 #endif
