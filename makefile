@@ -1,6 +1,7 @@
 CC=gcc
 CXX=g++
-CPPFLAGS= -I include -L lib -l SDL2-2.0.0 -I include -L lib -l SDL2_image-2.0.0 -I include -L lib -l SDL2_ttf-2.0.0
+CPPFLAGS= -I include -L lib -l SDL2-2.0.0 -I include -L lib -l SDL2_image-2.0.0 -I include -L lib -l SDL2_ttf-2.0.0 \
+-I include -L lib -l SDL2_mixer
 #COMPILEFLAGS = -I include -L lib -l SDL2_ttf-2.0.0
 #CPPFLAGS=-I include -l SDL2-2.0.0 -I include -l SDL2_image-2.0.0
 DEPS = src/headers/game.h src/headers/graphics.h src/headers/sprite.h src/headers/player.h \

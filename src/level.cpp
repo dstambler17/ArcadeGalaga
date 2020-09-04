@@ -1,6 +1,8 @@
 #include "headers/level.h"
 #include "headers/graphics.h"
 #include "headers/enemy.h"
+#include "headers/audio.h"
+
 
 #include <string>
 #include <iostream>
@@ -25,7 +27,8 @@ Level::Level(Graphics &graphics, int levelNum, vector<vector<int>> enemyList) {
         }
     }
         
-
+    this->_enemyKOAudio = Audio("content/audio/explosion.wav", 2);
+    this->_levelClearAudio = Audio("content/audio/levelClear.wav", 3);
     this->enemiesPerScreen = 5; //NOTE: SHOULD BE A CONSTRUCTOR PARAM
     this->number = levelNum;
     this->clear = false;
@@ -83,6 +86,7 @@ void Level::update(Player &_player, Graphics &_graphics) {
         _player.handleLazerCollisions(enemy);
         enemy->handleLazerCollisions(&_player);
         if (enemy->getHealth() <= 0){
+            this->_enemyKOAudio.play();
             deleteIdx.push_back(i);
             _player.updateScore(enemy->getPoints());
         }
@@ -95,6 +99,8 @@ void Level::update(Player &_player, Graphics &_graphics) {
     deleteIdx.clear();
 
     if (_enemies.size() == 0 && this->_enemiesBacklog.size() == 0 && this->_bosses.size() == 0){
+        this->_enemyKOAudio.pause();
+        this->_levelClearAudio.play();
         this->clear = true;
     }
 

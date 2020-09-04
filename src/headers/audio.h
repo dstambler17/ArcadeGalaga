@@ -2,17 +2,20 @@
 #define AUDIO_H
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
+#include <string>
+#include <iostream>
+
 
 class Audio {
 public:
-    ~Audio();
-    void load(const char* filename);
+    Audio();
+    Audio(std::string filePath, int channel);
     void play();
+    void pause();
 private:
-    SDL_AudioSpec wavSpec;
-    Uint32 wavLength;
-    Uint8 *wavBuffer;
-    SDL_AudioDeviceID deviceId;
+    Mix_Chunk *soundEffect;
+    int channel;
 };
 
 #endif //AUDIO_H

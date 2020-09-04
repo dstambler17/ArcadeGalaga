@@ -8,7 +8,6 @@
 #include "audio.h"
 #include <vector>
 
-
 class Game {
     public:
         Game();
@@ -39,6 +38,8 @@ class Game {
         TextManager _levelTextManager;
         SDL_Texture* _scoreTex;
         Audio _audio;
+        Audio _victoryAudio;
+        Audio _gameOverAudio;
 };
 
 #endif

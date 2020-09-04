@@ -97,7 +97,7 @@ void Player::update() {
     if (this->numLazers > 0){
         int i = 0;
         for (Lazer &lazer : this->_lazers){
-            if (lazer.getY() >= -20){
+            if (lazer.getY() >= -5){
                 lazer.travel();
                 lazer.update();
             } else{

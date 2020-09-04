@@ -3,6 +3,7 @@
 #include "graphics.h"
 #include "player.h"
 #include "enemy.h"
+#include "audio.h"
 
 #include <string>
 #include <iostream>
@@ -38,6 +39,8 @@ class Level {
         vector<Enemy*> _enemies;
         vector<Enemy*> _enemiesBacklog;
         vector<Enemy*> _bosses;
+        Audio _enemyKOAudio;
+        Audio _levelClearAudio;
 
 };
 

@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 #include <iostream>
 #include "headers/game.h"
 #include "headers/graphics.h"
@@ -17,6 +18,13 @@ Game::Game(){
     isGameOver = false;
     isGameWin = false;
     this->_player = Player(_graphics);
+    if (SDL_Init(SDL_INIT_AUDIO) < 0) {
+		std::cout << "init error" <<std::endl;
+    }
+    if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ){
+        std::cout << Mix_GetError() << std::endl;
+    }
+
     //Each vector will have 4 variables: enemy number, x_start, y_start, true/false, is boss true/false
     /*
     Enemy int reference:
@@ -36,7 +44,11 @@ Game::Game(){
 
     std::cout << "CALL TESTER" <<std::endl;
     
-    this->_audio.load("content/audio/lazer.wav");
+    this->_audio = Audio("content/audio/lazer.wav", 1);
+    this->_victoryAudio = Audio("content/audio/castleClear.wav", 3);
+    this->_gameOverAudio = Audio("content/audio/go.wav", 2);
+
+
 }
 
 Game::~Game()
@@ -68,7 +80,7 @@ void Game::handleEvents(){
             if(event.key.keysym.sym == SDLK_s) { // fire lazer
                 std::cout << "pew pew" << std::endl;
                 this-> _player.fireLazer(_graphics);
-                //this->_audio.play();
+                this->_audio.play(); //Commented cause can get annoying
             }
             
             break;
@@ -90,6 +102,11 @@ void Game::handleGameEndEvents(){
                 isRunning = false;
             }
             if(event.key.keysym.sym == SDLK_s) { // restart
+                if (isGameWin){
+                    this->_victoryAudio.pause();
+                } else if (isGameOver){
+                    this ->_gameOverAudio.pause();
+                }
                 isGameOver = false;
                 isGameWin = false;
                 this->_levels.clear();
@@ -130,6 +147,8 @@ void Game::update(){
         this->_levels.erase(this->_levels.begin());
         if (this->_levels.size() == 0){
             std::cout << "WINNER OF GAME" <<std::endl;
+            this->_victoryAudio.pause();
+            this->_victoryAudio.play();
             isGameWin = true;
         } else {
             Level* nextLevel = this->_levels.at(0);
@@ -140,6 +159,8 @@ void Game::update(){
     }
     if (_player.getHealth() <= 0){
         std::cout << "HEALTH TO NULL" <<std::endl;
+        this->_gameOverAudio.pause();
+        this->_gameOverAudio.play();
         isGameOver = true;
     }
 
