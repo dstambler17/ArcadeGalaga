@@ -44,6 +44,12 @@ Game::Game(){
 
     std::cout << "CALL TESTER" <<std::endl;
     
+    //Adjust Channel Volumes
+    Mix_Volume(1,MIX_MAX_VOLUME/4);
+    Mix_Volume(2,MIX_MAX_VOLUME/4);
+    Mix_Volume(3,MIX_MAX_VOLUME/2);
+    this->_levels.at(0)->levelBGMusic.play();
+
     this->_audio = Audio("content/audio/lazer.wav", 1);
     this->_victoryAudio = Audio("content/audio/castleClear.wav", 3);
     this->_gameOverAudio = Audio("content/audio/go.wav", 2);
@@ -120,6 +126,7 @@ void Game::handleGameEndEvents(){
                 _player.setPlayerHealth(3);
                 _player.clearLazers();
                 this->gameScore = 0;
+                this->_levels.at(0)->levelBGMusic.play();
                 this->_scoreTextManager = TextManager(_graphics, "Score: 0", "content/fonts/OpenSans.ttf");
                 this->_levelTextManager = TextManager(_graphics, "Level: 1", "content/fonts/OpenSans.ttf");  
             }
@@ -149,9 +156,11 @@ void Game::update(){
             std::cout << "WINNER OF GAME" <<std::endl;
             this->_victoryAudio.pause();
             this->_victoryAudio.play();
+            this->_gameWinScreen.screenMusic.play();
             isGameWin = true;
         } else {
             Level* nextLevel = this->_levels.at(0);
+            nextLevel->levelBGMusic.play();
             std::string newLevelText = "Level: " + std::to_string(nextLevel->getLevelNumber());
             _levelTextManager.updateTex(_graphics, newLevelText);
         }
@@ -161,6 +170,7 @@ void Game::update(){
         std::cout << "HEALTH TO NULL" <<std::endl;
         this->_gameOverAudio.pause();
         this->_gameOverAudio.play();
+        this->_gameOverScreen.screenMusic.play();
         isGameOver = true;
     }
 

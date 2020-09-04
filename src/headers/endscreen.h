@@ -2,6 +2,7 @@
 #define EndScreen_h
 #include "graphics.h"
 #include "textmanager.h"
+#include "music.h"
 
 #include <string>
 #include <iostream>
@@ -18,6 +19,7 @@ class EndScreen {
         */
         void handleEvents();
         void draw(Graphics &graphics);
+        Music screenMusic;
 
 
     private:

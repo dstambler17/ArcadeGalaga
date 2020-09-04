@@ -4,6 +4,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "audio.h"
+#include "music.h"
 
 #include <string>
 #include <iostream>
@@ -29,18 +30,24 @@ class Level {
 
         bool getClear() { return this->clear; }
 
+        Music levelBGMusic;
+
+
 
     private:
 
         int number;
         int enemiesPerScreen;
         bool clear;
+        bool bossPhase = false;
         vector<SDL_Texture*> _backgroundTextures;
         vector<Enemy*> _enemies;
         vector<Enemy*> _enemiesBacklog;
         vector<Enemy*> _bosses;
         Audio _enemyKOAudio;
         Audio _levelClearAudio;
+        Music _bossMusic;
+
 
 };
 

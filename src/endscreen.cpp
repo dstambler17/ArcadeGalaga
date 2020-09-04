@@ -1,5 +1,7 @@
 #include "headers/graphics.h"
 #include "headers/endscreen.h"
+#include "headers/music.h"
+
 
 
 #include <string>
@@ -27,7 +29,7 @@ EndScreen::EndScreen(Graphics &graphics, bool isVictory) {
     std::string info = "Press  \'s\' to continue or \'q\' to exit";
     this->_titleManager = TextManager(graphics, title, "content/fonts/OpenSans.ttf");
     this->_infoManager = TextManager(graphics, info, "content/fonts/OpenSans.ttf");
-
+    this->screenMusic = Music("content/music/caveStoryBoss.ogg");
 }
 
 
