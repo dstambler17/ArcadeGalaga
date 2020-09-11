@@ -20,9 +20,8 @@ Level::Level(Graphics &graphics, int levelNum, vector<vector<int>> enemyList) {
         auto file = entry.path().filename();
         std::string pathString = "content/backgrounds/" + file.u8string();
         SDL_Surface* bgSurface = graphics.loadImage(pathString);
-        std::cout << file.c_str() << std::endl;
         if (!bgSurface){
-            std::cout << "ERROR" << std::endl;
+            std::cout << "ERROR WITH BG SURFACE" << std::endl;
         } else {
             this->_backgroundTextures.push_back(SDL_CreateTextureFromSurface(graphics.getRenderer(), bgSurface));
         }
@@ -91,8 +90,8 @@ void Level::update(Player &_player, Graphics &_graphics) {
         if (enemy->getBoundingBox().collidesWith(_player.getBoundingBox())) {
 		    _player.handleEnemyCollisions();
 	    }
-        _player.handleLazerCollisions(enemy);
         enemy->handleLazerCollisions(&_player);
+        _player.handleLazerCollisions(enemy);
         if (enemy->getHealth() <= 0){
             this->_enemyKOAudio.play();
             deleteIdx.push_back(i);

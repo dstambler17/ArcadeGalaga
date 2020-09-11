@@ -56,7 +56,6 @@ void Enemy::update() {
                 lazer.update();
             } else{
                 deleteIdx.push_back(i);
-                //std::cout << this->_lazers.size() << std::endl;
             }
             i += 1;
         }

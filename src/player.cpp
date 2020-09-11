@@ -61,7 +61,6 @@ void Player::moveUp() {
 
 void Player::moveDown() {
     this->_dy = 10;
-    std::cout << this->_y << std::endl;
 }
 
 void Player::fireLazer(Graphics &graphics){
@@ -71,6 +70,14 @@ void Player::fireLazer(Graphics &graphics){
         this->rechargeTime = player_constants::RECHARGE_TIME;
     }
     
+}
+
+void Player::setPlayerStartPos(){
+    this->setPlayerScore(0);
+    this->setPlayerHealth(3);
+    this->clearLazers();
+    this->_x = 300;
+    this->_y = 400;
 }
 
 
@@ -102,12 +109,11 @@ void Player::update() {
                 lazer.update();
             } else{
                 deleteIdx.push_back(i);
-                std::cout << this->_lazers.size() << std::endl;
+                //std::cout << this->_lazers.size() << std::endl;
             }
             i += 1;
         }
     }
-    //Clear All Lazers
 
     //Remove Lazers that are no longer used
     for (int idx : deleteIdx){
@@ -121,7 +127,6 @@ void Player::update() {
 }
 
 void Player::handleEnemyCollisions() {
-    std::cout << "COLLISION TEST" << std::endl;
     if (!this->invincibilityOn){
         this->health -= 1;
         this->invincibilityOn = true;

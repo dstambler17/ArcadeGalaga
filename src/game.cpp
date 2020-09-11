@@ -41,14 +41,11 @@ Game::Game(){
     this->_levels.push_back(new Level(_graphics, 2, levelTwoInfo));  
     this->_scoreTextManager = TextManager(_graphics, "Score: 0", "content/fonts/OpenSans.ttf");
     this->_levelTextManager = TextManager(_graphics, "Level: 1", "content/fonts/OpenSans.ttf");
-
-    std::cout << "CALL TESTER" <<std::endl;
     
     //Adjust Channel Volumes
     Mix_Volume(1,MIX_MAX_VOLUME/4);
     Mix_Volume(2,MIX_MAX_VOLUME/4);
     Mix_Volume(3,MIX_MAX_VOLUME/2);
-    this->_levels.at(0)->levelBGMusic.play();
 
     this->_audio = Audio("content/audio/lazer.wav", 1);
     this->_victoryAudio = Audio("content/audio/castleClear.wav", 3);
@@ -67,24 +64,19 @@ void Game::handleEvents(){
     switch (event.type){
         case SDL_KEYDOWN:
             if(event.key.keysym.sym == SDLK_LEFT) { // move left
-                std::cout << "left" << std::endl;
                 this->_player.moveLeft();
             }
             if(event.key.keysym.sym == SDLK_RIGHT) { // move right
-                std::cout << "right" << std::endl;
                 this->_player.moveRight();
             }
 
             if(event.key.keysym.sym == SDLK_UP) { // move up
-                std::cout << "up" << std::endl;
                 this->_player.moveUp();
             }
             if(event.key.keysym.sym == SDLK_DOWN) { // move down
-                std::cout << "down" << std::endl;
                 this-> _player.moveDown();
             }
             if(event.key.keysym.sym == SDLK_s) { // fire lazer
-                std::cout << "pew pew" << std::endl;
                 this-> _player.fireLazer(_graphics);
                 this->_audio.play(); //Commented cause can get annoying
             }
@@ -97,6 +89,31 @@ void Game::handleEvents(){
             break;
     }
 }
+
+/*Handles user input at start of game*/
+void Game::handleGameStartEvents(){
+    SDL_Event event;
+    SDL_PollEvent(&event);
+    switch (event.type){
+        case SDL_KEYDOWN:
+            if(event.key.keysym.sym == SDLK_q) { // exit game
+                isRunning = false;
+            }
+            if(event.key.keysym.sym == SDLK_SPACE) { // start
+                this->_levels.at(0)->levelBGMusic.play();
+                isGameStart = false;
+            }
+            
+            break;
+        case SDL_QUIT:
+            isRunning = false;
+            break;
+        default:
+            break;
+    }
+}
+
+
 
 /*Handles user input at end of game*/
 void Game::handleGameEndEvents(){
@@ -122,9 +139,7 @@ void Game::handleGameEndEvents(){
                             {2, 600, 375, 1, 0}, {1, 200, 100, 1, 0}, {1, 300, 300, 0, 0}, {2, 300, 30, 1, 1}};
                 this->_levels.push_back(new Level(_graphics, 1, levelOneInfo));  
                 this->_levels.push_back(new Level(_graphics, 2, levelTwoInfo));
-                _player.setPlayerScore(0);
-                _player.setPlayerHealth(3);
-                _player.clearLazers();
+                _player.setPlayerStartPos();
                 this->gameScore = 0;
                 this->_levels.at(0)->levelBGMusic.play();
                 this->_scoreTextManager = TextManager(_graphics, "Score: 0", "content/fonts/OpenSans.ttf");
@@ -142,7 +157,7 @@ void Game::handleGameEndEvents(){
 
 
 void Game::update(){
-    if (isGameOver || isGameWin){
+    if (isGameOver || isGameWin || isGameStart){
         return;
     }
     _player.update();
@@ -156,7 +171,7 @@ void Game::update(){
             std::cout << "WINNER OF GAME" <<std::endl;
             this->_victoryAudio.pause();
             this->_victoryAudio.play();
-            this->_gameWinScreen.screenMusic.play();
+            Mix_HaltMusic();
             isGameWin = true;
         } else {
             Level* nextLevel = this->_levels.at(0);
@@ -170,7 +185,7 @@ void Game::update(){
         std::cout << "HEALTH TO NULL" <<std::endl;
         this->_gameOverAudio.pause();
         this->_gameOverAudio.play();
-        this->_gameOverScreen.screenMusic.play();
+        Mix_HaltMusic();
         isGameOver = true;
     }
 
@@ -187,6 +202,8 @@ void Game::render(){
             _gameOverScreen.draw(_graphics);
         } else if (isGameWin){
             _gameWinScreen.draw(_graphics);
+        } else if (isGameStart) {
+            titleScreen.draw(_graphics);
         } else{
             if (_levels.size() > 0){
                 _levels.at(0)->draw(_graphics);

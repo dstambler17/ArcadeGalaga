@@ -1,5 +1,6 @@
 #include <iostream>
 #include "headers/game.h"
+#include "headers/music.h"
 using namespace std;
 
 Game *game = nullptr;
@@ -13,12 +14,15 @@ int main(){
     int frameTime;
 
     game = new Game();
-
+    Music("content/music/caveStory.ogg").play();
     while (game->running()){
         frameStart = SDL_GetTicks();
 
         if (game->isGameOver || game->isGameWin){
             game->handleGameEndEvents();
+        
+        } else if (game->isGameStart) {
+            game->handleGameStartEvents();
         } else {
             game->handleEvents();
             game->update();

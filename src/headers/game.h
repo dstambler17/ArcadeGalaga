@@ -5,6 +5,7 @@
 #include "level.h"
 #include "textmanager.h"
 #include "endscreen.h"
+#include "titlescreen.h"
 #include "audio.h"
 #include <vector>
 
@@ -16,6 +17,7 @@ class Game {
         /*void init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
         */
         void handleEvents();
+        void handleGameStartEvents();
         void handleGameEndEvents();
         void update();
         void render();
@@ -24,6 +26,7 @@ class Game {
         bool running() {return isRunning;}
         bool isGameOver;
         bool isGameWin;
+        bool isGameStart = true;
 
     private:
         
@@ -33,6 +36,7 @@ class Game {
         Player _player;
         EndScreen _gameOverScreen = EndScreen(_graphics, false);
         EndScreen _gameWinScreen = EndScreen(_graphics, true);
+        TitleScreen titleScreen = TitleScreen(_graphics);
         vector<Level*> _levels;
         TextManager _scoreTextManager;
         TextManager _levelTextManager;

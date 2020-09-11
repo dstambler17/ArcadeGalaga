@@ -56,6 +56,7 @@ public:
 	void setPlayerScore(int num) { this->score = num; }
 	void setPlayerHealth(int num) { this->health = num; }
 	void clearLazers() { this->numLazers = 0; this->_lazers.clear(); }
+	void setPlayerStartPos();
 
 
 private:

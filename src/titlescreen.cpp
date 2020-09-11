@@ -1,5 +1,6 @@
 #include "headers/graphics.h"
-#include "headers/endscreen.h"
+#include "headers/titlescreen.h"
+#include "headers/music.h"
 
 #include <string>
 #include <iostream>
@@ -7,8 +8,8 @@
 #include <filesystem>
 namespace fs = std::__fs::filesystem;
 
-EndScreen::EndScreen() {}
-EndScreen::EndScreen(Graphics &graphics, bool isVictory) {
+TitleScreen::TitleScreen() {}
+TitleScreen::TitleScreen(Graphics &graphics) {
    
     fs::path pathToShow("content/backgrounds/");
     for (const auto& entry : fs::directory_iterator(pathToShow)) {
@@ -21,14 +22,16 @@ EndScreen::EndScreen(Graphics &graphics, bool isVictory) {
             this->_backgroundTextures.push_back(SDL_CreateTextureFromSurface(graphics.getRenderer(), bgSurface));
         }
     }
-    std::string title = (isVictory) ? "WINNER" : "GAME OVER";
-    std::string info = "Press  \'s\' to continue or \'q\' to exit";
+    std::string title = "Arcade Space";
+    std::string about = "A Dan Stam Production";
+    std::string info = "Press  the spacebar to start";
     this->_titleManager = TextManager(graphics, title, "content/fonts/OpenSans.ttf");
+    this->_aboutManager = TextManager(graphics, about, "content/fonts/OpenSans.ttf");
     this->_infoManager = TextManager(graphics, info, "content/fonts/OpenSans.ttf");
 }
 
 
-void EndScreen::draw(Graphics &graphics) {
+void TitleScreen::draw(Graphics &graphics) {
     //Draw BG First
     SDL_Rect bgTile = {0,0,100, 100};
     int tile_num = 0;
@@ -41,8 +44,10 @@ void EndScreen::draw(Graphics &graphics) {
            
         }
     }
-    SDL_Rect titleRect = {250,200,300,100};
-    SDL_Rect infoRect = {200, 315, 400, 50};
+    SDL_Rect titleRect = {250,150,300,100};
+    SDL_Rect aboutRect = {200,260,400,50};
+    SDL_Rect infoRect = {200, 340, 400, 50};
     _titleManager.draw(graphics, &titleRect);
+    _aboutManager.draw(graphics, &aboutRect);
     _infoManager.draw(graphics, &infoRect);
 }

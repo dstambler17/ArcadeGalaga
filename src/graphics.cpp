@@ -25,7 +25,6 @@ Graphics::~Graphics() {
 SDL_Surface* Graphics::loadImage(const std::string &filePath) {
     
     if (this->_spriteSheets.count(filePath) == 0) {
-        std::cout << 'TEST' << std::endl;
 		this->_spriteSheets[filePath] = IMG_Load(filePath.c_str());
 	}
 	return this->_spriteSheets[filePath];
@@ -44,7 +43,6 @@ SDL_Surface* Graphics::loadText(const std::string &fontPath, const std::string &
         if (!this->_fonts[fontPath]) {
             std::cout << TTF_GetError() << std::endl;
         }
-        std::cout << "RENDER WORKED" << std::endl;
     }
     return TTF_RenderText_Solid(this->_fonts[fontPath], text.c_str(), text_color);
 }
@@ -57,12 +55,10 @@ void Graphics::blitSurface(SDL_Texture* texture, SDL_Rect* sourceRectangle, SDL_
 
 
 void Graphics::flip() {
-    //std::cout << 'flip' << std::endl;
 	SDL_RenderPresent(this->_renderer);
 }
 
 void Graphics::clear() {
-    //std::cout << 'clear' << std::endl;
 	SDL_RenderClear(this->_renderer);
 }
 
