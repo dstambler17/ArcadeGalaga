@@ -22,10 +22,10 @@ TitleScreen::TitleScreen(Graphics &graphics) {
             this->_backgroundTextures.push_back(SDL_CreateTextureFromSurface(graphics.getRenderer(), bgSurface));
         }
     }
-    std::string title = "Arcade Space";
+    SDL_Surface* titleSurface = graphics.loadImage("content/sprites/galagaLogoTwo.png");
+    this->_titleTex = SDL_CreateTextureFromSurface(graphics.getRenderer(), titleSurface);
     std::string about = "A Dan Stam Production";
     std::string info = "Press  the spacebar to start";
-    this->_titleManager = TextManager(graphics, title, "content/fonts/OpenSans.ttf");
     this->_aboutManager = TextManager(graphics, about, "content/fonts/OpenSans.ttf");
     this->_infoManager = TextManager(graphics, info, "content/fonts/OpenSans.ttf");
 }
@@ -44,10 +44,10 @@ void TitleScreen::draw(Graphics &graphics) {
            
         }
     }
-    SDL_Rect titleRect = {250,150,300,100};
-    SDL_Rect aboutRect = {200,260,400,50};
-    SDL_Rect infoRect = {200, 340, 400, 50};
-    _titleManager.draw(graphics, &titleRect);
+    SDL_Rect titleRect = {220,120,370,180};
+    SDL_Rect aboutRect = {200,300,400,50};
+    SDL_Rect infoRect = {200, 380, 400, 50};
+    graphics.blitSurface(this->_titleTex, NULL, &titleRect);
     _aboutManager.draw(graphics, &aboutRect);
     _infoManager.draw(graphics, &infoRect);
 }

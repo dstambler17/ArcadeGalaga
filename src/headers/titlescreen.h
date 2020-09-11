@@ -24,7 +24,7 @@ class TitleScreen {
 
     private:
         vector<SDL_Texture*> _backgroundTextures;
-        TextManager _titleManager;
+        SDL_Texture* _titleTex;
         TextManager _aboutManager;
         TextManager _infoManager;
 
