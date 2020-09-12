@@ -206,7 +206,8 @@ BossShip::BossShip(Graphics &graphics, int spawnX, int spawnY, bool shouldMoveSi
 	this->canFireLazers = true;
 }
 
-
+//When boss or ENEMY (especially side to side ufo) moves into a lot of lazers, THERE IS SEG FAULT
+//Seg fault when I fire at enemy and take damage?
 
 void BossShip::update(Graphics &graphics) {
 	if (((int) this->getX()) % 100 == 0 && this->getInStartPos()){

@@ -136,22 +136,23 @@ void Player::handleEnemyCollisions() {
 
 void Player::handleLazerCollisions(Enemy* enemy) {
     //Collect Collided with enemies
-    vector<int> deleteIdx;
+    
     if (this->numLazers > 0){
         int i = 0;
-        for (Lazer &lazer : this->_lazers){
+        //Note, using an iterator is a much better way to handle
+        auto it = this->_lazers.begin();
+        while (it != this->_lazers.end())
+        {   
+            Lazer lazer = *it;
             if (lazer.getBoundingBox().collidesWith(enemy->getBoundingBox())){
                 lazer.collideWithEnemy(enemy);
-                deleteIdx.push_back(i);
+                it = this->_lazers.erase(it);
+            } else{
+                ++it;
             }
-            i += 1;
         }
+        
     }
-    //Remove Lazers that are no longer used
-    for (int idx : deleteIdx){
-       this->_lazers.erase(this->_lazers.begin() + idx);
-    }
-    deleteIdx.clear();
 }
 
 void Player::updateScore(int points){
